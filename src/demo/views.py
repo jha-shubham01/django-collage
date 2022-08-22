@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from rest_framework import serializers
-from rest_framework.response import Response
 from django.http import JsonResponse
-import json
+from .collage import create_collage
 
 class MultipleImageSerializer(serializers.Serializer):
 
@@ -18,6 +17,9 @@ def index(request):
 def make_collage(request):
     # images = request.FILES.get("images")
     serializer = MultipleImageSerializer(data=request.FILES or None)
-    serializer.is_valid(raise_exception=True)
-    print(serializer.validated_data.get("images"))
-    return JsonResponse({"message": "Success"})
+    try:
+        serializer.is_valid(raise_exception=True)
+    except Exception as e:
+        return JsonResponse({"message": "Some error occurred", "details": str(e)}, status=400)
+    link = create_collage(serializer.validated_data.get("images"))
+    return JsonResponse({"link": link})
