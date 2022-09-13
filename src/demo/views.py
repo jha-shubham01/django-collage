@@ -15,7 +15,7 @@ def index(request):
 
 
 def make_collage(request):
-    # images = request.FILES.get("images")
+
     serializer = MultipleImageSerializer(data=request.FILES or None)
     try:
         serializer.is_valid(raise_exception=True)

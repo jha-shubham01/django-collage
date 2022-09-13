@@ -16,15 +16,15 @@ def create_collage(images):
     images = [cv2.resize(image, (IMAGE_WIDTH, IMAGE_HEIGHT)) for image in images]
     if len(images) > 2:
         half = len(images) // 2
-        img_tile_resize = cv2.hconcat(images[:half])
-        img_tile_resize_2 = cv2.hconcat(images[half:])
-        concat_images = cv2.vconcat([img_tile_resize, img_tile_resize_2])
+        h1 = cv2.hconcat(images[:half])
+        h2 = cv2.hconcat(images[half:])
+        concat_images = cv2.vconcat([h1, h2])
     else:
         concat_images = cv2.hconcat(images)
     image = Image.fromarray(concat_images)
 
     # Image path
-    img_path = "sj.jpg"
+    image_name = "sj.jpg"
     image = image.convert("RGB")
-    image.save(f"{settings.MEDIA_ROOT}/{img_path}")
-    return img_path
+    image.save(f"{settings.MEDIA_ROOT}/{image_name}")
+    return image_name
